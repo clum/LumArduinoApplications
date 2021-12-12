@@ -10,6 +10,7 @@ Version History
 */
 
 #include "LumArrays.h"
+#include "LumHCSR04.h"
 
 //Constants
 int PinLED_R          = 9;
@@ -43,18 +44,8 @@ void loop() {
   int red = 255;
   analogWrite(PinLED_R,red);
 
-  //USE THE BAT SENSOR TO DETERMINE DISTANCE
-  //set HC-S04 trigger to low
-  digitalWrite(PinHCS04Trigger,LOW);
-  delayMicroseconds(2);
-
-  //set HC-S04 trigger to high for 10 microseconds to initiate a pulse
-  digitalWrite(PinHCS04Trigger,HIGH);
-  delayMicroseconds(10);
-  digitalWrite(PinHCS04Trigger,LOW);
-
-  //obtain the response from the echo pin
-  int duration_ms = pulseIn(PinHCS04Echo,HIGH);
+  //Use HC-SR04 to determine distance
+  int timeOfFlight_microseconds = HCSR04GetTimeOfFlight_ms(PinHCS04Trigger, PinHCS04Echo);
 
   //get rid of spikes
   if (duration_ms>3500) {
