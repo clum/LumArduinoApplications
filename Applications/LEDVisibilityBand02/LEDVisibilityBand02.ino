@@ -8,6 +8,7 @@ lum@uw.edu
 
 Version History
 12/12/21: Created
+12/18/21: Adding changing mode
  */
 
 #include "FastLED.h"
@@ -35,7 +36,15 @@ CRGB  leds[NUM_LEDS];
 //  3 = bpmLum
 int   mode = 0;
 
-void setup() {
+//switch
+int PinSwitch = 2;
+int lastSwitchState = 0;
+
+
+void setup() {  
+  //Serial
+  Serial.begin(9600);
+  
   // tell FastLED about the LED strip configuration
   FastLED.addLeds<LED_TYPE,PIN_LED,COLOR_ORDER>(leds, NUM_LEDS)
     .setCorrection(TypicalLEDStrip)
@@ -43,10 +52,46 @@ void setup() {
 
   // set master brightness control
   FastLED.setBrightness(BRIGHTNESS);
+
+  //switch
+  pinMode(PinSwitch, INPUT_PULLUP);
 }
 
 void loop()
 {
+  //Mode Select
+  int stateSwitch = !digitalRead(PinSwitch);
+  
+  //detect rising edge
+  int risingEdge = 0;
+  if(stateSwitch != lastSwitchState) {
+    //change in state
+    if(stateSwitch==1) {
+      //switch went high
+      risingEdge = 1;
+    } else {
+      //switch went low
+      risingEdge = 0;
+    }
+
+    lastSwitchState = stateSwitch;
+    
+  } else {
+    //state is the same
+    risingEdge = 0;
+  }
+
+  //update the mode
+  int numModes = 4;
+  if(risingEdge) {
+    if(mode==numModes-1) {
+      mode = 0;
+    } else {
+      mode++;
+    }    
+  }
+  
+  //LED
   if(mode==0) {
     CRGB color = CRGB(150,10,5);
     uint16_t deltaT_ms = 10;
@@ -74,5 +119,8 @@ void loop()
     allOff(leds,NUM_LEDS);
   }
     
-  FastLED.show();  
+  FastLED.show();
+
+  //Debugging
+  Serial.println((String)stateSwitch + "," + (String)risingEdge);
 }
