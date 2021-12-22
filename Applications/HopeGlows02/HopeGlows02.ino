@@ -26,7 +26,7 @@ Version History
 #define COLOR_ORDER             GRB
 
 #define PIN_LED                 2
-#define NUM_LEDS                60
+#define NUM_LEDS                300
 
 #define BRIGHTNESS              255
 
