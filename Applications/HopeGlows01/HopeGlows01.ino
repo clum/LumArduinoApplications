@@ -1,12 +1,17 @@
 /*
 Control an external RGB LED for the Hope Glows event.
 
+This uses a non-addressable LED strip.
+
+This also uses a HC-SR04 to measure the change the color based on the distance.
+
 Christopher Lum
 lum@uw.edu
 
 Version History
 12/06/21: created
 12/11/21: Adding reference to LumArrays
+12/26/21: Updated documentation
 */
 
 #include "LumArrays.h"

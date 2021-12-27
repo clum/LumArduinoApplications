@@ -1,17 +1,15 @@
 /*
-Create a band/sash that can be worn for increased visibility at night.
+LED control for Hope Glows event.
 
-2021 Christmas gift for Alison
+This includes:
+-Addressable LED strip
+-Two buttons to switch mode and brightness
 
 Christopher Lum
 lum@uw.edu
 
 Version History
-12/12/21: Created
-12/18/21: Adding changing mode and brightness via a switch push
-12/19/21: Notied that the rainbowWithGlitterLum and rainbowLum mode tends to make the arduino reset.  
-          Seems to only happen when running on battery power.  This might be because when plugged into battery, Serial.println do not get flushed.  Tried removing this but still had issues.
-          Confetti seems to work OK but rainbow and bpm seem to cause crashes
+12/26/21: Created
  */
 
 #include "FastLED.h"
@@ -26,7 +24,7 @@ Version History
 #define COLOR_ORDER             GRB
 
 #define PIN_LED                 2
-#define NUM_LEDS                300
+#define NUM_LEDS                69
 
 #define BRIGHTNESS              255
 
