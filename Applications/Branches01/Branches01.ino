@@ -1,10 +1,11 @@
 /* 
-Move servo to a set/constant position
+Move servo to set positions
 
 Cora and Amara Lum
 
 Version History
 12/03/2021 Created
+12/27/2021 edited
 */
 
 #include <Servo.h>
@@ -17,10 +18,10 @@ void setup() {
 }
 
 void loop() {
-  int pos = 90;
+  int pos = 0;
   myservo.write(pos);
   delay(3000);
-  pos = 160;   //in range of [0,180]
+  pos = 180;   //in range of [0,180]
   myservo.write(pos); 
   delay(3000); 
 }
