@@ -1,7 +1,7 @@
 /*
 Log data to an SD card.
 
-This writes (appends to a file).
+Info on multiple DS18B20 sensors located at https://lastminuteengineers.com/multiple-ds18b20-arduino-tutorial/
 
 Christopher Lum
 lum@uw.edu
@@ -17,8 +17,7 @@ Version History
 #define PIN_CS  10    //card select pin
 
 File myFile;
-const char fileName[] = "Log01.txt";   //cannot be a long file name
-
+const char fileName[] = "Log03.txt";   //cannot be a long file name
 //----------------------------
 
 
@@ -59,26 +58,22 @@ void loop()
   //get current time
   unsigned long t_ms = millis();
   
-  // Send the command to get temperatures
+  //gather data to log  
   sensors.requestTemperatures(); 
+  float temperatureA_c = sensors.getTempCByIndex(0);
+  float temperatureB_c = sensors.getTempCByIndex(1);
 
-  //print the temperature in Celsius
-  float temperature_C = sensors.getTempCByIndex(0);
-  Serial.print("Temperature: ");
-  Serial.print(temperature_C);
-  Serial.print((char)176);//shows degrees character
-  Serial.print("C  |  ");
+  //generate a csv string
+  String logString = (String)t_ms+","+(String)temperatureA_c+","+(String)temperatureB_c;
+
+  //print to serial monitor
+  Serial.println(logString);
   
-  //print the temperature in Fahrenheit
-  Serial.print((temperature_C * 9.0) / 5.0 + 32.0);
-  Serial.print((char)176);//shows degrees character
-  Serial.println("F");
-
   //write current temperature to file
   myFile = SD.open(fileName, FILE_WRITE);
     
   if (myFile) {
-    myFile.println((String)t_ms+","+(String)temperature_C);
+    myFile.println(logString);
     
     // close the file:
     myFile.close();
