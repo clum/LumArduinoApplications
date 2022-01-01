@@ -8,6 +8,7 @@ lum@uw.edu
 
 Version History
 12/27/21: Created
+01/01/22: Changed data type for return of millis from 'uint16_t' to 'unsigned long' to avoid overflow
 */
 
 //----------------------------
@@ -56,7 +57,7 @@ void setup()
 void loop()
 {
   //get current time
-  uint16_t t_ms = millis();
+  unsigned long t_ms = millis();
   
   // Send the command to get temperatures
   sensors.requestTemperatures(); 
