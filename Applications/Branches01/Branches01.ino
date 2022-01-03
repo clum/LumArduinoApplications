@@ -21,7 +21,7 @@ void loop() {
   int pos = 0;
   myservo.write(pos);
   delay(3000);
-  pos = 180;   //in range of [0,180]
+  pos = 45;   //in range of [0,180]
   myservo.write(pos); 
   delay(3000); 
 }

@@ -11,7 +11,8 @@ Version History
 12/18/21: Adding changing mode and brightness via a switch push
 12/19/21: Notied that the rainbowWithGlitterLum and rainbowLum mode tends to make the arduino reset.  
           Seems to only happen when running on battery power.  This might be because when plugged into battery, Serial.println do not get flushed.  Tried removing this but still had issues.
-          Confetti seems to work OK but rainbow and bpm seem to cause crashes
+          Confetti seems to work OK but rainbow and bpm seem to cause crashes.  This seems to be a problem when trying to power via the 5V pin.  
+          Resolved problem by powering directly via USB plug.
  */
 
 #include "FastLED.h"
@@ -26,7 +27,8 @@ Version History
 #define COLOR_ORDER             GRB
 
 #define PIN_LED                 2
-#define NUM_LEDS                60
+//#define NUM_LEDS                60    //Alison's visibility band
+#define NUM_LEDS                26    //Gussie's visibility band
 
 #define BRIGHTNESS              255
 
@@ -47,7 +49,7 @@ int deltaBrightness           = 50;
 
 void setup() {  
   //Serial
-  //Serial.begin(9600);
+  Serial.begin(9600);
   
   //LED
   FastLED.addLeds<LED_TYPE,PIN_LED,COLOR_ORDER>(leds, NUM_LEDS)
@@ -161,6 +163,7 @@ void loop()
   FastLED.show();
 
   //Debugging
+  Serial.println((String)currentLEDMode + "," + (String)currentBrightness);
   //Serial.println((String)switchModeState + "," + (String)risingEdgeMode + "," + (String)switchBrightnessState + "," + (String)risingEdgeBrightness);
   //Serial.println((String)risingEdgeMode + "," + (String)currentLEDMode);
 }
