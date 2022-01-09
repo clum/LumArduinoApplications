@@ -31,17 +31,17 @@ void setup() {
 
 void loop()
 { 
-  uint8_t redA    = 220;  //in between 0 and 255
-  uint8_t greenA  = 30;   //in between 0 and 255
-  uint8_t blueA   = 0;    //in between 0 and 255
+  uint8_t redA    = 0;  //in between 0 and 255
+  uint8_t greenA  = 0;   //in between 0 and 255
+  uint8_t blueA   = 255;    //in between 0 and 255
 
-  uint8_t redB    = 50;   //in between 0 and 255
-  uint8_t greenB  = 150;   //in between 0 and 255
-  uint8_t blueB   = 42;   //in between 0 and 255
+  uint8_t redB    = 0;   //in between 0 and 255
+  uint8_t greenB  = 255;   //in between 0 and 255
+  uint8_t blueB   = 0;   //in between 0 and 255
 
-  float omega_rps = 3;
+  float omega_rps = 2;
 
-  int brightness  = 25;   //in between 0 and 255
+  int brightness  = 15;   //in between 0 and 255
   
   //set LEDs using sinPulse
   CRGB colorA = CRGB(redA,greenA,blueA);
