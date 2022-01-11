@@ -41,6 +41,7 @@ DallasTemperature sensors(&oneWire);
 //GPS Module
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
+#include "LumTinyGPSPlus.h"
 
 #define PIN_GPS_RX  4
 #define PIN_GPS_TX  3
@@ -77,7 +78,8 @@ void loop()
   unsigned long t_ms = millis();
 
   //delay and give gps object time to consume serial data
-  smartDelay(1000);
+  unsigned long delayDeltaT_ms = 1000;
+  DelayAndEncodeGPSViaSoftwareSerial(delayDeltaT_ms,&gps,&ss);
   
   //-----------gather data to log---------------
   sensors.requestTemperatures(); 
@@ -123,7 +125,7 @@ void loop()
   //generate a csv string
   String logString = (String)t_ms + "," +
     (String)temperatureA_c + "," + (String)temperatureB_c + "," +
-    (String)gps_location_lat_deg + "," + (String)gps_location_lat_deg + "," +
+    (String)gps_location_lat_deg + "," + (String)gps_location_lng_deg + "," +
     (String)gps_date_year + "," + (String)gps_date_month + "," + (String)gps_date_day + "," +
     (String)gps_time_hour + "," + (String)gps_time_minute + "," + (String)gps_time_second + "," + (String)gps_time_centisecond + "," +
     (String)gps_speed_mph + "," + (String)gps_course_deg + "," + (String)gps_altitude_ft + "," + (String)gps_satellites_value + "," + (String)gps_hdop_fraction;
