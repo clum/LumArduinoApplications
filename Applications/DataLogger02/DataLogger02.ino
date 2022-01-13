@@ -13,6 +13,8 @@ Version History
 12/27/21: Created
 01/01/22: Changed data type for return of millis from 'uint16_t' to 'unsigned long' to avoid overflow
 01/08/22: Added GPS module
+01/10/22: Updating
+01/12/22: Updating.  Encountered issue where SD.open failed.  This might have been due to running out of memory on Nano.  Fixed by leaving out some floats.  Verified to work on Nano.
 */
 
 //----------------------------
@@ -21,7 +23,7 @@ Version History
 #define PIN_CS  10    //card select pin
 
 File myFile;
-const char fileName[] = "Log06.csv";   //cannot be a long file name
+const char fileName[] = "Log03.csv";   //cannot be a long file name
 //----------------------------
 
 //----------------------------
@@ -99,6 +101,7 @@ void loop()
   TinyGPSHDOP     gps_hdop        = gps.hdop;
 
   //unpack data structure
+  bool      gps_isValid           = gps_location.isValid();
   double    gps_location_lat_deg  = gps_location.lat();
   double    gps_location_lng_deg  = gps_location.lng();
   
@@ -109,8 +112,7 @@ void loop()
   uint8_t   gps_time_hour         = gps_time.hour();
   uint8_t   gps_time_minute       = gps_time.minute();
   uint8_t   gps_time_second       = gps_time.second();
-  uint8_t   gps_time_centisecond  = gps_time.centisecond();
-
+  
   double    gps_speed_mph         = gps_speed.mph();
 
   double    gps_course_deg        = gps_course.deg();
@@ -122,22 +124,96 @@ void loop()
   double    gps_hdop_fraction     = gps_hdop.hdop();
 
   //-----------log data---------------
-  //generate a csv string
-  String logString = (String)t_ms + "," +
-    (String)temperatureA_c + "," + (String)temperatureB_c + "," +
-    (String)gps_location_lat_deg + "," + (String)gps_location_lng_deg + "," +
-    (String)gps_date_year + "," + (String)gps_date_month + "," + (String)gps_date_day + "," +
-    (String)gps_time_hour + "," + (String)gps_time_minute + "," + (String)gps_time_second + "," + (String)gps_time_centisecond + "," +
-    (String)gps_speed_mph + "," + (String)gps_course_deg + "," + (String)gps_altitude_ft + "," + (String)gps_satellites_value + "," + (String)gps_hdop_fraction;
+  //generate a string for float values
+  char comma[2] = ",";
+  char str_floats[100] = "";
 
-  //print to serial monitor
-  Serial.println(logString);
+  uint8_t minWidth = 9;
+  uint8_t precision = 5;
   
-  //write current temperature to file
-  myFile = SD.open(fileName, FILE_WRITE);
+  //temperatureA_c
+  char str_temperatureA_c[8];
+  minWidth = 4;
+  precision = 2;
+  dtostrf(temperatureA_c,minWidth,precision,str_temperatureA_c);
+  strcat(str_floats,str_temperatureA_c);
+  strcat(str_floats,comma);  
+
+  //temperatureB_c
+  char str_temperatureB_c[8];
+  minWidth = 4;
+  precision = 2;
+  dtostrf(temperatureB_c,minWidth,precision,str_temperatureB_c);
+  strcat(str_floats,str_temperatureB_c);
+  strcat(str_floats,comma);
     
+  //str_gps_location_lat_deg
+  char str_gps_location_lat_deg[15];
+  minWidth = 7;
+  precision = 5;
+  dtostrf(gps_location_lat_deg,minWidth,precision,str_gps_location_lat_deg);
+  strcat(str_floats,str_gps_location_lat_deg);
+  strcat(str_floats,comma);  
+
+  //str_gps_location_lng_deg
+  char str_gps_location_lng_deg[15];
+  minWidth = 7;
+  precision = 5;
+  dtostrf(gps_location_lng_deg,minWidth,precision,str_gps_location_lng_deg);
+  strcat(str_floats,str_gps_location_lng_deg);
+  strcat(str_floats,comma);
+
+  //gps_speed_mph
+  char str_gps_speed_mph[8];
+  minWidth = 4;
+  precision = 2;
+  dtostrf(gps_speed_mph,minWidth,precision,str_gps_speed_mph);
+  strcat(str_floats,str_gps_speed_mph);
+  strcat(str_floats,comma);
+
+  /*
+   * MIGHT NEED TO LEAVE OUT AS INCLUDING MIGHT GIVE US MEMORY OVERFLOW ISSUES AND MAKE IT SO WE CANNOT OPEN SD CARD FILE
+  //gps_course_deg
+  char str_gps_course_deg[8];
+  minWidth = 4;
+  precision = 2;
+  dtostrf(gps_course_deg,minWidth,precision,str_gps_course_deg);
+  strcat(str_floats,str_gps_course_deg);
+  strcat(str_floats,comma);
+  */
+
+  //gps_altitude_ft
+  char str_gps_altitude_ft[15];
+  minWidth = 4;
+  precision = 2;
+  dtostrf(gps_altitude_ft,minWidth,precision,str_gps_altitude_ft);
+  strcat(str_floats,str_gps_altitude_ft);
+  strcat(str_floats,comma);
+
+  //gps_hdop_fraction
+  char str_gps_hdop_fraction[8];
+  minWidth = 4;
+  precision = 2;
+  dtostrf(gps_hdop_fraction,minWidth,precision,str_gps_hdop_fraction);
+  strcat(str_floats,str_gps_hdop_fraction);
+  strcat(str_floats,comma);
+  
+  //generate the complete csv string
+  char str[150];
+
+  //cast some variables to a different data type so sprintf will format them correctly
+  uint8_t gps_satellites_value2 = (uint8_t)gps_satellites_value;
+
+  //sprintf(str,"%s",str_floats);   //works
+  sprintf(str,"%d,%d,%d,%d,%d,%d,%d,%d,%s",gps_isValid,gps_date_year,gps_date_month,gps_date_day,gps_time_hour,gps_time_minute,gps_time_second,gps_satellites_value2,str_floats);   //fails
+  
+  //print to serial monitor
+  Serial.println(str);
+  
+  //write str to file
+  myFile = SD.open(fileName, FILE_WRITE);    
   if (myFile) {
-    myFile.println(logString);
+    myFile.println(str);
     
     // close the file:
     myFile.close();
@@ -146,19 +222,18 @@ void loop()
     // if the file didn't open, print an error:
     Serial.println("error opening file");
     
-  }
-  
+  }  
 }
 
 
 
-// This custom version of delay() ensures that the gps object is being "fed".
-static void smartDelay(unsigned long ms)
-{
-  unsigned long start = millis();
-  do 
-  {
-    while (ss.available())
-      gps.encode(ss.read());
-  } while (millis() - start < ms);
-}
+//// This custom version of delay() ensures that the gps object is being "fed".
+//static void smartDelay(unsigned long ms)
+//{
+//  unsigned long start = millis();
+//  do 
+//  {
+//    while (ss.available())
+//      gps.encode(ss.read());
+//  } while (millis() - start < ms);
+//}
