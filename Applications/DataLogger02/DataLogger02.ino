@@ -23,7 +23,7 @@ Version History
 #define PIN_CS  10    //card select pin
 
 File myFile;
-const char fileName[] = "Log03.csv";   //cannot be a long file name
+const char fileName[] = "Log04.csv";   //cannot be a long file name
 //----------------------------
 
 //----------------------------
@@ -224,16 +224,3 @@ void loop()
     
   }  
 }
-
-
-
-//// This custom version of delay() ensures that the gps object is being "fed".
-//static void smartDelay(unsigned long ms)
-//{
-//  unsigned long start = millis();
-//  do 
-//  {
-//    while (ss.available())
-//      gps.encode(ss.read());
-//  } while (millis() - start < ms);
-//}
