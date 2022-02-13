@@ -8,6 +8,7 @@ lum@uw.edu
 
 Version History
 01/05/22: Created
+02/10/22: Finalized values for Hope Glows
  */
 
 #include "FastLED.h"
@@ -80,35 +81,37 @@ void loop()
     greenB      = 255;
     blueB       = 0;
 
-    omega_rps   = 2;
+    omega_rps   = 1;
     
-    brightness  = 15;
+    brightness  = 255;
     
   } else if (mode==1) {
+    //Cora colors
     redA        = 200;
     greenA      = 40;
     blueA       = 100;
 
-    redB        = 250;
+    redB        = 220;
     greenB      = 34;
     blueB       = 21;
 
     omega_rps   = 2;
     
-    brightness  = 15;
+    brightness  = 255;
 
   } else if (mode==2) {
-    redA        = 0;
-    greenA      = 0;
-    blueA       = 200;
+    //Freya's colors
+    redA        = 255;
+    greenA      = 80;
+    blueA       = 2;
 
-    redB        = 0;
-    greenB      = 200;
-    blueB       = 0;
+    redB        = 150;
+    greenB      = 60;
+    blueB       = 2;
 
-    omega_rps   = 1;
+    omega_rps   = 4;
     
-    brightness  = 100;  
+    brightness  = 255;    
   }
   
   //set LEDs using sinPulse
