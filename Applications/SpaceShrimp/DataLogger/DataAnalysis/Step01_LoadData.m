@@ -1,16 +1,19 @@
-%Load csv data
+%Load csv data and isolate appropriate rows
 %
 %Christopher Lum
 %lum@uw.edu
 
 %Version History
 %12/09/21: Created
+%03/21/22: Cleaned up and generalized
 
 clear
 clc
 close all
 
 tic
+
+ChangeWorkingDirectoryToThisLocation();
 
 % dataFile = '.\21_12_29\LOG03.csv';
 % 
@@ -27,23 +30,22 @@ tic
 % plot(t_s,T2_f)
 % grid on
 
+%% User selections
+dataFile        = '.\22_03_21\LOG05.csv';
+dataStartRow    = 6;
+dataEndRow      = 285;
+outputFile      = 'Step01Results.mat';
 
-dataFile = '.\21_12_29\LOG01.csv';
-
+%% Load data
 T = readtable(dataFile);
 data = table2array(T);
 
-t_s = data(:,1)./1000;
-T1_f = CelciustoFarenheit(data(:,2));
+%Isolate data to the appropriate range
+data = data(dataStartRow:dataEndRow,:);
 
-% figure
-% hold on
-% plot(t_s,T1_f)
-% grid on
-
-% plot([1:1:length(t_s)],t_s)
-
-plot([1:1:length(t_s)],T1_f)
+%% Save data
+save(outputFile,'data')
+disp(['Saved to ',outputFile])
 
 toc
 disp('DONE!')
