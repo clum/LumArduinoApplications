@@ -1,11 +1,12 @@
 /*
-Control an external RGB LED and make it blink using digitalWrite.
+Control a passive buzzer and play a song.
 
 Christopher Lum
 lum@uw.edu
 
 Version History
 11/14/21: created
+03/21/22: updated documentation
 */
 
 #include "pitches.h"
