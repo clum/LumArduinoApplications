@@ -15,6 +15,7 @@ Version History
 01/08/22: Added GPS module
 01/10/22: Updating
 01/12/22: Updating.  Encountered issue where SD.open failed.  This might have been due to running out of memory on Nano.  Fixed by leaving out some floats.  Verified to work on Nano.
+03/21/22: Verified to work after moving to Space Shrimp folder.  Tested with data analysis and verified to collect valid data.
 */
 
 //----------------------------
@@ -147,7 +148,7 @@ void loop()
   strcat(str_floats,str_temperatureB_c);
   strcat(str_floats,comma);
     
-  //str_gps_location_lat_deg
+  //gps_location_lat_deg
   char str_gps_location_lat_deg[15];
   minWidth = 7;
   precision = 5;
@@ -155,7 +156,7 @@ void loop()
   strcat(str_floats,str_gps_location_lat_deg);
   strcat(str_floats,comma);  
 
-  //str_gps_location_lng_deg
+  //gps_location_lng_deg
   char str_gps_location_lng_deg[15];
   minWidth = 7;
   precision = 5;
@@ -205,7 +206,7 @@ void loop()
   uint8_t gps_satellites_value2 = (uint8_t)gps_satellites_value;
 
   //sprintf(str,"%s",str_floats);   //works
-  sprintf(str,"%d,%d,%d,%d,%d,%d,%d,%d,%s",gps_isValid,gps_date_year,gps_date_month,gps_date_day,gps_time_hour,gps_time_minute,gps_time_second,gps_satellites_value2,str_floats);   //fails
+  sprintf(str,"%d,%d,%d,%d,%d,%d,%d,%d,%s",gps_isValid,gps_date_year,gps_date_month,gps_date_day,gps_time_hour,gps_time_minute,gps_time_second,gps_satellites_value2,str_floats);   //can fail if there are too many double valuues
   
   //print to serial monitor
   Serial.println(str);
