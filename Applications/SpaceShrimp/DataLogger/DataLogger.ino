@@ -16,6 +16,8 @@ Version History
 01/10/22: Updating
 01/12/22: Updating.  Encountered issue where SD.open failed.  This might have been due to running out of memory on Nano.  Fixed by leaving out some floats.  Verified to work on Nano.
 03/21/22: Verified to work after moving to Space Shrimp folder.  Tested with data analysis and verified to collect valid data.
+04/17/22: Testing after rewiring and building containing box.
+04/25/22: Finalizing before integration into payload box.
 */
 
 //----------------------------
@@ -24,7 +26,7 @@ Version History
 #define PIN_CS  10    //card select pin
 
 File myFile;
-const char fileName[] = "Log05.csv";   //cannot be a long file name
+const char fileName[] = "Log07.csv";   //cannot be a long file name
 //----------------------------
 
 //----------------------------
