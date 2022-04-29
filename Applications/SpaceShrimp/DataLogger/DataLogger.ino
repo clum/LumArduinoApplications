@@ -18,6 +18,7 @@ Version History
 03/21/22: Verified to work after moving to Space Shrimp folder.  Tested with data analysis and verified to collect valid data.
 04/17/22: Testing after rewiring and building containing box.
 04/25/22: Finalizing before integration into payload box.
+04/28/22: Adding LEDs to indicate status
 */
 
 //----------------------------
@@ -56,6 +57,16 @@ TinyGPSPlus gps;
 SoftwareSerial ss(PIN_GPS_RX, PIN_GPS_TX);
 //----------------------------
 
+//----------------------------
+//LEDs
+int PIN_LED_R = A4;
+int PIN_LED_B = A5;   //do not use green LED, they are too dim
+
+bool LED_R_STATE = 0;
+bool LED_B_STATE = 0;
+
+//----------------------------
+
 void setup()
 {
   Serial.begin(9600);
@@ -75,6 +86,10 @@ void setup()
 
   //start software serial
   ss.begin(GPSBaud);
+
+  //LED
+  pinMode(PIN_LED_R,OUTPUT);
+  pinMode(PIN_LED_B,OUTPUT);
 }
  
 void loop()
@@ -220,10 +235,38 @@ void loop()
     
     // close the file:
     myFile.close();
+
+    //use blue LED to indicate state
+    if(gps_isValid) {
+      //valid GPS, flash blue on/off (match the pattern of the green LED on the GPS chip)
+      if(LED_B_STATE) {
+        digitalWrite(PIN_LED_B,HIGH);
+        LED_B_STATE = !LED_B_STATE;
+        
+      } else {
+        digitalWrite(PIN_LED_B,LOW);
+        LED_B_STATE = ~LED_B_STATE;
+      }
+    
+    } else {
+      //invalid GPS, go solid blue (match the pattern of the green LED on the GPS chip)
+      digitalWrite(PIN_LED_B,HIGH);
+        
+    }
     
   } else {
     // if the file didn't open, print an error:
     Serial.println("error opening file");
+
+    //flash red LED to indicate a failure
+    if(LED_R_STATE) {
+      digitalWrite(PIN_LED_R,HIGH);
+      LED_R_STATE = !LED_R_STATE;
+      
+    } else {
+      digitalWrite(PIN_LED_R,LOW);
+      LED_R_STATE = ~LED_R_STATE;
+    }
     
   }  
 }
