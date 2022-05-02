@@ -19,6 +19,7 @@ Version History
 04/17/22: Testing after rewiring and building containing box.
 04/25/22: Finalizing before integration into payload box.
 04/28/22: Adding LEDs to indicate status
+05/01/22: Adding check that number of satellites is above threshold before flashing LED
 */
 
 //----------------------------
@@ -237,7 +238,7 @@ void loop()
     myFile.close();
 
     //use blue LED to indicate state
-    if(gps_isValid) {
+    if(gps_isValid && (gps_satellites_value>=4)) {
       //valid GPS, flash blue on/off (match the pattern of the green LED on the GPS chip)
       if(LED_B_STATE) {
         digitalWrite(PIN_LED_B,HIGH);
