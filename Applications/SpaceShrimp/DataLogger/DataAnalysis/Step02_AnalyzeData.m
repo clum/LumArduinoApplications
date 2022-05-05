@@ -22,7 +22,8 @@ ChangeWorkingDirectoryToThisLocation();
 % inputFile   = '22_04_17_LOG6_ID01.mat';
 % inputFile   = 'GPS_01.mat';
 % inputFile   = 'GPS_02.mat';
-inputFile   = 'GPS_03.mat';
+% inputFile   = 'GPS_03.mat';
+inputFile   = 'GPS_03_short.mat';
 
 timeZone = 'America/Los_Angeles';
 

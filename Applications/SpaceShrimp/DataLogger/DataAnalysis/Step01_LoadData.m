@@ -52,11 +52,17 @@ ChangeWorkingDirectoryToThisLocation();
 % dataEndRow      = 26360;
 % outputFile      = 'GPS_02.mat';
 
-%data from GPS_03
+% %data from GPS_03
+% dataFile        = '.\22_04_30_GPS_03\LOG07.csv';
+% dataStartRow    = 1070;
+% dataEndRow      = 14900;
+% outputFile      = 'GPS_03.mat';
+
+%data from GPS_03 (short)
 dataFile        = '.\22_04_30_GPS_03\LOG07.csv';
-dataStartRow    = 1070;
-dataEndRow      = 14900;
-outputFile      = 'GPS_03.mat';
+dataStartRow    = 1980;
+dataEndRow      = 4402;
+outputFile      = 'GPS_03_short.mat';
 
 %% Load data
 T = readtable(dataFile);
