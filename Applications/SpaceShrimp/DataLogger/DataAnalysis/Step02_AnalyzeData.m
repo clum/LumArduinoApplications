@@ -23,7 +23,8 @@ ChangeWorkingDirectoryToThisLocation();
 % inputFile   = 'GPS_01.mat';
 % inputFile   = 'GPS_02.mat';
 % inputFile   = 'GPS_03.mat';
-inputFile   = 'GPS_03_short.mat';
+% inputFile   = 'GPS_03_short.mat';
+inputFile   = 'SpaceShrimp.mat';
 
 timeZone = 'America/Los_Angeles';
 
@@ -113,6 +114,8 @@ grid on
 figure
 geoplot(gps_location_lat_deg,gps_location_lng_deg,'LineWidth',3)
 geobasemap('streets')
+
+MaximizeFigureAll();
 
 toc
 disp('DONE!')

@@ -58,11 +58,17 @@ ChangeWorkingDirectoryToThisLocation();
 % dataEndRow      = 14900;
 % outputFile      = 'GPS_03.mat';
 
-%data from GPS_03 (short)
-dataFile        = '.\22_04_30_GPS_03\LOG07.csv';
-dataStartRow    = 1980;
-dataEndRow      = 4402;
-outputFile      = 'GPS_03_short.mat';
+% %data from GPS_03 (short)
+% dataFile        = '.\22_04_30_GPS_03\LOG07.csv';
+% dataStartRow    = 1980;
+% dataEndRow      = 4402;
+% outputFile      = 'GPS_03_short.mat';
+
+%Space Shrimp
+dataFile        = '.\22_05_28_SpaceShrimp\LOG07.csv';
+dataStartRow    = 800;
+dataEndRow      = 5700;
+outputFile      = 'SpaceShrimp.mat';
 
 %% Load data
 T = readtable(dataFile);
